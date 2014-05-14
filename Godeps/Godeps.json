@@ -1,0 +1,10 @@
+{
+	"ImportPath": "github.com/t0pep0/errornotify",
+	"GoVersion": "go1.2.1",
+	"Deps": [
+		{
+			"ImportPath": "github.com/mattn/go-redmine",
+			"Rev": "571991260773a4af2e84bdf3a96114097f806c67"
+		}
+	]
+}
