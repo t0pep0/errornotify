@@ -3,6 +3,7 @@ package errornotify
 import (
 	redmine "github.com/mattn/go-redmine"
 	"os"
+	"runtime"
 	"strconv"
 	"time"
 )
@@ -28,9 +29,12 @@ type Nerror struct {
 	env       []string
 	cur_dir   string
 	hostname  string
+	file      string
+	line      int
 }
 
 func (e *Nerror) Set(lvl string, msg string) {
+	_, e.file, e.line, _ = runtime.Caller(2)
 	e.timestamp = time.Now()
 	e.env = os.Environ()
 	e.gid = os.Getgid()
@@ -55,6 +59,7 @@ func (e *Nerror) Set(lvl string, msg string) {
 
 func (e *Nerror) Error() (msg string) {
 	msg = e.timestamp.Format(time.RFC1123) + ": Level: " + e.level + " " + e.message + "\n\r"
+	msg += "File:" + e.file + ":" + strconv.Itoa(e.line)
 	msg += "Environment:\n\r"
 	for _, env := range e.env {
 		msg += "      " + env + "\n\r"
